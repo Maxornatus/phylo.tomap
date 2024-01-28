@@ -1,5 +1,5 @@
 # Establecer el directorio de trabajo
-setwd("D:/archivos portatil/archivos y programas/trabajos en r/PHYLO TO MAP")
+setwd("C:/Users/usuar/OneDrive/Documents/GitHub/phylo.tomap")
 
 # Cargar bibliotecas
 library(phytools)
