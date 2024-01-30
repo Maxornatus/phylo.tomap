@@ -50,8 +50,8 @@ cols <- setNames(cols, tree$tip.label)
 
 # Grafica
 plot(obj, direction = "rightwards",colors = cols, ftype = "off", fsize=0.8,cex.points=c(0.8,1.2),
-     pts = T, lwd = 1.5)
-legend("topleft", legend = c("Población uno", "Población dos"), fill = colores_personalizados, title = "Poblaciones",
+     pts = T, lwd = 1.5, xlim = c(-90, -35), ylim = c(-55, 12),)
+legend("topleft", legend = c("Población uno", "Población dos"), fill = colores_personalizados,
        cex = 1.5, bty = "n")
 
 # Grafica con nombre
@@ -68,7 +68,7 @@ legend("topright", legend = c("Población uno", "Población dos"), fill = colore
 
 
 # Grafica con clado dentro del mapa 
-plot(obj, type = "direct", colors = cols, pts=FALSE,fsize=0.8,
+plot(obj, type = "direct", colors = cols, pts=FALSE,fsize=0.8,  xlim = c(-90, -35), ylim = c(-55, 12),
      map.bg="lightgreen", map.fill="lightblue", ftype = "off", cex.points = 3, delimit_map=TRUE)
 
 legend("topright", legend = c("Población uno", "Población dos"), fill = colores_personalizados,
