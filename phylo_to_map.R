@@ -55,24 +55,24 @@ legend("topleft", legend = c("Población uno", "Población dos"), fill = colores
        cex = 1.5, bty = "n")
 
 # Grafica con nombre
-plot(obj, direction = "rightwards",colors = cols, cex.points = 1.5,
-     pts = FALSE, lwd = 1)
-legend("topright", legend = c("Población uno", "Población dos"), fill = colores_personalizados, title = "Poblaciones",
+plot(obj, direction = "rightwards",colors = cols, ftype = "i", fsize=0.8,cex.points=c(0.8,1.2),
+     pts = T, lwd = 1.5, xlim = c(-90, -35), ylim = c(-55, 12),)
+legend("topright", legend = c("Población uno", "Población dos"), fill = colores_personalizados,
        cex = 1.5, bty = "n")
 
-# Grafica con clado dentro del mapa 
+# Grafica con clado dentro del mapa1 
 plot(obj, direction = "rightwards", type = "direct", colors = cols, ftype = "off", cex.points = 3,
      pts = T, lwd = 1, delimit_map=TRUE)
 legend("topright", legend = c("Población uno", "Población dos"), fill = colores_personalizados, title = "Poblaciones",
        cex = 1.5, bty = "n")
 
 
-# Grafica con clado dentro del mapa 
+# Grafica con clado dentro del mapa 2
 plot(obj, type = "direct", colors = cols, pts=FALSE,fsize=0.8,  xlim = c(-90, -35), ylim = c(-55, 12),
      map.bg="lightgreen", map.fill="lightblue", ftype = "off", cex.points = 3, delimit_map=TRUE)
 
 legend("topright", legend = c("Población uno", "Población dos"), fill = colores_personalizados,
-       cex = 1.5, bty = "n", adj = c(0.5, 0.5),  x.intersp = 3.7, y.intersp = 1.3)
+       cex = 1.5, bty = "n")
 
 
 # Colorear y mostrar el mapa (opcion arcoiris)
