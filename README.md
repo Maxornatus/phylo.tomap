@@ -5,6 +5,14 @@ En los campos de la biología evolutiva y la biogeografía, investigar la distri
 
 En este tutorial, exploraremos cómo utilizar la función `phylo.to.map` de la libreria `phytools` Revell (2012) en R, para representar gráficamente datos filogenéticos y la distribución geográfica de poblaciones de una misma especies. Dicha función nos permite combinar técnicas de análisis filogenético y mapeo geográfico para visualizar la relación entre la historia evolutiva de las especies o individuos de una misma especie y su distribución geográfica. A lo largo de este tutorial, aprenderemos paso a paso cómo utilizar esta función para crear visualizaciones impactantes que nos ayuden a comprender mejor la biogeografía y la evolución de las especies. 
 
+
+Para visualizar el tutorial descargue el contenido del repositorio y luego abra el archivo `phylo_to_map_tutorial.html` en su navegador.
+
+Si solo necesita el código lo podrá encontrar en el archivo `phylo_to_map.R`, además de encontrar los archivos de ejemplo para realizar la ejecución del script `B_vari.tre` y `coo_vari.csv`.
+
+Espero este tutorial sea de ayuda y agrado en su investigación!
+
+
 Bibliografía:
 
 Revell, L. J. (2012) phytools: An R package for phylogenetic comparative biology (and other things). Methods Ecol. Evol., 3, 217-223.
