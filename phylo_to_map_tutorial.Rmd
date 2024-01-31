@@ -1,17 +1,17 @@
 ---
-title: "phylo.to.map para análisis biogeográficos"
+title: "phylo.to.map para análisis biogeográficos en R"
 author: "Maximiliano Ortiz Varela"
-date: "2024-01-25"
+date: "2024-01-30"
 output: html_document
 ---
 
 <div style="text-align: justify">
 En los campos de la biología evolutiva y la biogeografía, investigar la distribución de las especies y su relación con la evolución es esencial para desentrañar los complejos patrones que han dado forma a la diversidad de la vida a lo largo del tiempo y en diferentes lugares. La distribución geográfica de las especies es el resultado de una interacción dinámica entre una multitud de factores. Entre estos factores se incluyen eventos históricos, como las glaciaciones que han modificado los paisajes y los hábitats; cambios climáticos a lo largo de escalas temporales diversas, que han influido en la disponibilidad de recursos y en la adaptabilidad de las especies; barreras geográficas, como cordilleras, ríos y océanos, que han actuado como obstáculos para la dispersión; y procesos evolutivos, como la evolución de características morfológicas y fisiológicas que han permitido a las especies adaptarse a entornos específicos y expandirse a nuevas áreas.
 
-En este tutorial, exploraremos cómo utilizar la función "phylo.to.map" de la libreria phytools Revell (2012), para representar gráficamente datos filogenéticos y de distribución geográfica de especies. Dicha función nos permite combinar técnicas de análisis filogenético y mapeo geográfico para visualizar la relación entre la historia evolutiva de las especies o individuos de una misma especie y su distribución geográfica. A lo largo de este tutorial, aprenderemos paso a paso cómo utilizar esta función para crear visualizaciones impactantes que nos ayuden a comprender mejor la biogeografía y la evolución de las especies. 
+En este tutorial, exploraremos cómo utilizar la función `phylo.to.map` de la libreria `phytools` Revell (2012) en R, para representar gráficamente datos filogenéticos y la distribución geográfica de poblaciones de una misma especies. Dicha función nos permite combinar técnicas de análisis filogenético y mapeo geográfico para visualizar la relación entre la historia evolutiva de las especies o individuos de una misma especie y su distribución geográfica. A lo largo de este tutorial, aprenderemos paso a paso cómo utilizar esta función para crear visualizaciones impactantes que nos ayuden a comprender mejor la biogeografía y la evolución de las especies. 
 </div>
 
-1- Establecer el directorio de trabajo
+Primero, se utiliza la función `setwd()` para especificar la ubicación del directorio de trabajo actual en el cual se encuentran los archivos relevantes para el análisis. Es esencial para asegurar que R pueda acceder a los archivos necesarios sin problemas.
 
 ```{r setwd, echo=TRUE, message = FALSE}
 
@@ -19,7 +19,7 @@ setwd("D:/archivos portatil/archivos y programas/trabajos en r/PHYLO TO MAP")
 
 ```
 
-2- Cargar bibliotecas
+En esta sección, se cargan varias bibliotecas mediante la función `library()`. Estas bibliotecas contienen funciones y herramientas específicas que se utilizarán más adelante en el análisis. Cargar las bibliotecas al inicio del documento asegura que las funciones requeridas estén disponibles para su uso.
 
 ```{r librerias, echo=TRUE, message = FALSE}
 
@@ -30,7 +30,7 @@ library(ape)
 library(maps)
 ```
 
-3- lectura de datos 
+Aquí se leen los datos desde archivos externos utilizando las funciones `read.csv()` y `read.tree()`. Estos datos incluyen información geoespacial y filogenética necesaria para el análisis y la visualización posterior.
 
 ```{r datos, echo=TRUE, message = FALSE, results='asis'}
 
@@ -38,7 +38,7 @@ data <- read.csv("coo_vari.csv", header = TRUE, row.names = 1)
 tree <- read.tree("B_vari.tre")
 ```
 
-4- Definir rangos de filas y grupos correspondientes
+Se define una lista de rangos de filas que corresponden a diferentes grupos de datos. Estos rangos se utilizarán posteriormente para asignar colores a cada grupo en las visualizaciones.
 
 ```{r color listas, echo=TRUE}
 
@@ -49,22 +49,21 @@ rangos_color <- list(
 
 ```
 
-6- Crear el objeto phylo.to.map
-
-```{r obj, echo=TRUE, message = FALSE}
-
-obj <- phylo.to.map(tree, data, plot=FALSE, direction="rightwards",
-                    region="america")
-```
-
-7- Definir colores para cada grupo
+Se establece un vector de colores personalizados que se asignarán a cada grupo de datos. Estos colores se utilizarán para distinguir visualmente los diferentes grupos.
 
 ```{r colores, echo=TRUE}
 
 colores_personalizados <- c("blue", "green")
 ```
 
-8- Obtener los colores para cada especie dentro de los grupos
+Se utiliza la función `phylo.to.map()` para generar un objeto que combina un árbol filogenético y datos geoespaciales. Este objeto es fundamental para la generación de mapas filogenéticos que muestran la distribución geográfica de las poblaciones representadas en el árbol.
+
+```{r obj, echo=TRUE, message = FALSE}
+
+obj <- phylo.to.map(tree, data, plot=FALSE, direction = "rightwards")
+```
+
+Se inicializa un vector para almacenar los colores asignados a cada especie dentro de los grupos definidos anteriormente. Este paso prepara el terreno para asignar colores específicos a cada especie.
 
 ```{r colores asignacion, echo=TRUE}
 
@@ -72,7 +71,7 @@ cols <- rep(NA, length(obj[["tree"]][["tip.label"]]))
 
 ```
 
-9- Asigna colores basándote en los rangos
+Se implementa un bucle para asignar colores a cada especie dentro de los grupos definidos anteriormente. Los colores se asignan de acuerdo con los rangos de filas establecidos previamente.
 
 ```{r for, echo=TRUE}
 
@@ -83,7 +82,7 @@ for (i in seq_along(rangos_color)) {
 }
 ```
 
-10- Asegura que cualquier posición no asignada obtenga un color predeterminado (puedes ajustar según necesites)
+Se asegura de que todas las especies reciban un color, incluso aquellas que no se hayan asignado explícitamente. Esto garantiza una representación visual completa en las visualizaciones posteriores.
 
 ```{r color opcion, echo=TRUE}
 
@@ -91,31 +90,45 @@ cols[is.na(cols)] <- "gray"
 
 ```
 
-11- Crea un vector de colores asignados a las puntas del árbol
+Se asignan los colores a las puntas del árbol filogenético, lo que permite visualizar la relación entre las poblaciones y su distribución geográfica.
 
 ```{r vector color, echo=TRUE}
 
 cols <- setNames(cols, tree$tip.label)
 ```
 
-12- Grafica
+Se genera una visualización que muestra el mapa filogenético utilizando la función `plot()`. Se especifican parámetros como la dirección del árbol, los colores asignados a los individuos y los límites del eje.
+
+```{r grafica inicial, echo=TRUE, message = FALSE}
+
+plot(obj, direction = "rightwards",colors = cols, ftype = "off", fsize=0.8,cex.points=c(0.8,1.2),
+     pts = T, lwd = 1.5, xlim = c(-90, -35), ylim = c(-55, 12),)
+legend("topright", legend = c("Poblacion uno", "Poblacion dos"), fill = colores_personalizados,
+       cex = 0.8, bty = "n")
+```
+
+Similar al paso anterior, pero se incluyen los nombres de los individuos en las puntas del árbol `ftype = "i"` para una referencia más clara.
 
 ```{r grafica, echo=TRUE}
 
-plot(obj, direction = "rightwards", colors = cols, ftype = "off", cex.points = c(0, 1.2),
-     pts = FALSE, lwd = c(1, 0.5))
+plot(obj, direction = "rightwards",colors = cols, ftype = "i", fsize=0.8,cex.points=c(0.8,1.2),
+     pts = T, lwd = 1.5, xlim = c(-90, -35), ylim = c(-55, 12),)
+legend("topright", legend = c("Poblacion uno", "Poblacion dos"), fill = colores_personalizados,
+       cex = 0.8, bty = "n")
+
 ```
 
-Opcional- Colorear y mostrar el mapa (opcion arcoiris)
+Se genera una visualización alternativa que muestra la relación filogenética dentro del mapa geográfico, proporcionando una perspectiva adicional sobre la distribución y la evolución de las poblaciones.
 
 ```{r grafica alternativa, echo=TRUE}
 
-reinbowc <- setNames(sample(rainbow(n = Ntip(tree))), tree$tip.label)
+plot(obj, type = "direct", colors = cols, pts=FALSE,fsize=0.8,  xlim = c(-90, -35), ylim = c(-55, 12),
+     map.bg="lightgreen", map.fill="lightblue", ftype = "off", cex.points = 3, delimit_map=TRUE)
 
-plot(obj, direction="rightwards", colors = reinbowc, ftype = "off", cex.points = c(0, 1.5),
-     pts = TRUE, lwd = c(1, 0.5))
+
 ```
 
+Cada paso en este código contribuye a la preparación y visualización de nuestros datos para comprender mejor la distribución geográfica y la relación evolutiva de las poblaciones o especies que estamos estudiando.
 
 ### Bibliografia:
 
